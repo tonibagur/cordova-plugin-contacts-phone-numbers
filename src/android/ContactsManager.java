@@ -12,9 +12,8 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.provider.ContactsContract.CommonDataKinds.Photo;
-import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.StructuredName;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Contacts.Data;
@@ -70,8 +69,8 @@ public class ContactsManager extends CordovaPlugin {
             ContactsContract.CommonDataKinds.Phone.TYPE,
             ContactsContract.Data.CONTACT_ID,
             ContactsContract.Data.MIMETYPE,
-            ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE,
-            ContactsContract.CommonDataKinds.Email.DATA,
+            ContactsContract.CommonDataKinds.Photo.PHOTO,
+            ContactsContract.CommonDataKinds.Email.ADRESS,
         };
         // Retrieve only the contacts with a phone number at least
         Cursor cursor = cr.query(ContactsContract.Data.CONTENT_URI,
@@ -136,8 +135,8 @@ public class ContactsManager extends CordovaPlugin {
                         contact.put("firstName", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME)));
                         contact.put("lastName", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME)));
                         contact.put("displayName", c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
-                        contact.put("photos", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)));
-                        contact.put("email", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)));
+                        contact.put("photos", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO)));
+                        contact.put("email", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADRESS)));
                     }
                     else if (mimetype.equals(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)) {
                         phones.put(getPhoneNumber(c));
