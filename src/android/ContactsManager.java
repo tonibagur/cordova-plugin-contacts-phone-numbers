@@ -136,7 +136,7 @@ public class ContactsManager extends CordovaPlugin {
                         contact.put("lastName", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME)));
                         contact.put("displayName", c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
                         contact.put("photos", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO)));
-                        contact.put("email", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADRESS)));
+                        contact.put("email", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS)));
                     }
                     else if (mimetype.equals(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)) {
                         phones.put(getPhoneNumber(c));
