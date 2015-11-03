@@ -108,6 +108,7 @@ public class ContactsManager extends CordovaPlugin {
         try {
             if (c.getCount() > 0) {
                 while (c.moveToNext()) {
+                    Log.d("Proves", 'Passem 0 !!!!!!!!!');
                     contactId = c.getString(c.getColumnIndex(ContactsContract.Data.CONTACT_ID)); 
 
                     if (c.getPosition() == 0) // If we are in the first row set the oldContactId
@@ -146,9 +147,13 @@ public class ContactsManager extends CordovaPlugin {
                     } else if (mimetype.equals(ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)) {
                         contact.put("email", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)));
                     } else if (mimetype.equals(ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)) {
+                        Log.d("Proves", 'Passem 1 !!!!!!!!!');
                         Uri person = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, (Long.valueOf(contactId)));
+                        Log.d("Proves", 'Passem 2 !!!!!!!!!');
                         Uri photoUri = Uri.withAppendedPath(person, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
+                        Log.d("Proves", 'Passem 3 !!!!!!!!!');
                         contact.put("photos", photoUri.toString());
+                        Log.d("Proves", 'Passem 4 !!!!!!!!!');
                     }
 
                     // Set the old contact ID
