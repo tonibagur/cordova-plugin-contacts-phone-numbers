@@ -70,7 +70,7 @@ public class ContactsManager extends CordovaPlugin {
             ContactsContract.Data.CONTACT_ID,
             ContactsContract.Data.MIMETYPE,
             ContactsContract.CommonDataKinds.Photo.PHOTO,
-            ContactsContract.CommonDataKinds.Email.ADRESS,
+            ContactsContract.CommonDataKinds.Email.ADDRESS,
         };
         // Retrieve only the contacts with a phone number at least
         Cursor cursor = cr.query(ContactsContract.Data.CONTENT_URI,
