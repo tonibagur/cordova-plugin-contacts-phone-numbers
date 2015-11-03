@@ -19,6 +19,9 @@ import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Contacts.Data;
 import android.util.Log;
 
+import android.net.Uri;
+import android.content.ContentUris;
+
 public class ContactsManager extends CordovaPlugin {
 
     private CallbackContext callbackContext;
@@ -69,7 +72,7 @@ public class ContactsManager extends CordovaPlugin {
             ContactsContract.CommonDataKinds.Phone.TYPE,
             ContactsContract.Data.CONTACT_ID,
             ContactsContract.Data.MIMETYPE,
-            ContactsContract.CommonDataKinds.Photo.PHOTO,
+            ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE,
             ContactsContract.CommonDataKinds.Email.DATA,
         };
         // Retrieve only the contacts with a phone number at least
@@ -143,7 +146,9 @@ public class ContactsManager extends CordovaPlugin {
                     } else if (mimetype.equals(ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)) {
                         contact.put("email", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)));
                     } else if (mimetype.equals(ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)) {
-                        contact.put("photos", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO)));
+                        Uri person = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, (Long.valueOf(contactId)));
+                        Uri photoUri = Uri.withAppendedPath(person, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
+                        contact.put("photos", photoUri.toString());
                     }
 
                     // Set the old contact ID
