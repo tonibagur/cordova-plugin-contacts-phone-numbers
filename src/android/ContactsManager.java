@@ -70,7 +70,7 @@ public class ContactsManager extends CordovaPlugin {
             ContactsContract.Data.CONTACT_ID,
             ContactsContract.Data.MIMETYPE,
             ContactsContract.CommonDataKinds.Photo.PHOTO,
-            ContactsContract.CommonDataKinds.Email.DISPLAY_NAME,
+            ContactsContract.CommonDataKinds.Email.DATA,
         };
         // Retrieve only the contacts with a phone number at least
         Cursor cursor = cr.query(ContactsContract.Data.CONTENT_URI,
@@ -136,7 +136,7 @@ public class ContactsManager extends CordovaPlugin {
                         contact.put("lastName", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME)));
                         contact.put("displayName", c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
                         contact.put("photos", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO)));
-                        contact.put("email", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.DISPLAY_NAME)));
+                        contact.put("email", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)));
                     }
                     else if (mimetype.equals(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)) {
                         phones.put(getPhoneNumber(c));
