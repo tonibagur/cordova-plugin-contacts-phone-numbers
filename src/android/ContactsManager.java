@@ -60,8 +60,9 @@ public class ContactsManager extends CordovaPlugin {
     }
     
     private JSONArray list() {
+        JSONArray contacts = new JSONArray();
         try{
-            JSONArray contacts = new JSONArray(); 
+             
             ContentResolver cr = this.cordova.getActivity().getContentResolver();
             String[] projection = new String[] { 
                 ContactsContract.Contacts.DISPLAY_NAME,
