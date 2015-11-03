@@ -60,29 +60,33 @@ public class ContactsManager extends CordovaPlugin {
     }
     
     private JSONArray list() {
-        JSONArray contacts = new JSONArray(); 
-        ContentResolver cr = this.cordova.getActivity().getContentResolver();
-        String[] projection = new String[] { 
-            ContactsContract.Contacts.DISPLAY_NAME,
-            ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME,
-            ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME,
-            ContactsContract.Contacts.HAS_PHONE_NUMBER,
-            ContactsContract.CommonDataKinds.Phone.NUMBER,
-            ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER,
-            ContactsContract.CommonDataKinds.Phone.TYPE,
-            ContactsContract.Data.CONTACT_ID,
-            ContactsContract.Data.MIMETYPE,
-            //ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE,
-            ContactsContract.CommonDataKinds.Email.DATA,
-        };
-        // Retrieve only the contacts with a phone number at least
-        Cursor cursor = cr.query(ContactsContract.Data.CONTENT_URI,
-                projection, 
-                ContactsContract.Contacts.HAS_PHONE_NUMBER + " = 1",
-                null,
-                ContactsContract.Data.CONTACT_ID + " ASC");
+        try{
+            JSONArray contacts = new JSONArray(); 
+            ContentResolver cr = this.cordova.getActivity().getContentResolver();
+            String[] projection = new String[] { 
+                ContactsContract.Contacts.DISPLAY_NAME,
+                ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME,
+                ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME,
+                ContactsContract.Contacts.HAS_PHONE_NUMBER,
+                ContactsContract.CommonDataKinds.Phone.NUMBER,
+                ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER,
+                ContactsContract.CommonDataKinds.Phone.TYPE,
+                ContactsContract.Data.CONTACT_ID,
+                ContactsContract.Data.MIMETYPE,
+                ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE,
+                ContactsContract.CommonDataKinds.Email.DATA,
+            };
+            // Retrieve only the contacts with a phone number at least
+            Cursor cursor = cr.query(ContactsContract.Data.CONTENT_URI,
+                    projection, 
+                    ContactsContract.Contacts.HAS_PHONE_NUMBER + " = 1",
+                    null,
+                    ContactsContract.Data.CONTACT_ID + " ASC");
 
-        contacts = populateContactArray(cursor);
+            contacts = populateContactArray(cursor);
+        } catch (JSONException e) {
+            Log.e("Proves", e.getMessage(), e);
+        }
         return contacts;
     }
 
