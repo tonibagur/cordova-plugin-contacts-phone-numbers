@@ -22,6 +22,7 @@ import android.util.Log;
 import android.net.Uri;
 import android.content.ContentUris;
 
+
 public class ContactsManager extends CordovaPlugin {
 
     private CallbackContext callbackContext;
@@ -60,6 +61,7 @@ public class ContactsManager extends CordovaPlugin {
     }
     
     private JSONArray list() {
+        Log.d("Proves!!!!!!!!!!!!!", "list!!!!");
         JSONArray contacts = new JSONArray();
         try{
              
@@ -74,8 +76,8 @@ public class ContactsManager extends CordovaPlugin {
                 ContactsContract.CommonDataKinds.Phone.TYPE,
                 ContactsContract.Data.CONTACT_ID,
                 ContactsContract.Data.MIMETYPE,
-                ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE,
                 ContactsContract.CommonDataKinds.Email.DATA,
+                ContactsContract.Contacts.PHOTO_ID,
             };
             // Retrieve only the contacts with a phone number at least
             Cursor cursor = cr.query(ContactsContract.Data.CONTENT_URI,
@@ -85,8 +87,8 @@ public class ContactsManager extends CordovaPlugin {
                     ContactsContract.Data.CONTACT_ID + " ASC");
 
             contacts = populateContactArray(cursor);
-        } catch (JSONException e) {
-            Log.e("Proves", e.getMessage(), e);
+        } catch (Exception e) {
+            return contacts;
         }
         return contacts;
     }
@@ -144,24 +146,15 @@ public class ContactsManager extends CordovaPlugin {
                         contact.put("firstName", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME)));
                         contact.put("lastName", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME)));
                         contact.put("displayName", c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
-                        //contact.put("photos", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO)));
-                        //contact.put("email", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)));
-                    }
-                    else if (mimetype.equals(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)) {
+                        contact.put("hasPhoto", c.getString(c.getColumnIndex(ContactsContract.Contacts.PHOTO_ID)));
+                    } else if (mimetype.equals(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)) {
                         phones.put(getPhoneNumber(c));
                     } else if (mimetype.equals(ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)) {
                         contact.put("email", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)));
-                    //} else if (mimetype.equals(ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)) {
-                    } else {
-                        /*Log.d("Proves", "Passem 1 !!!!!!!!!");
+                    } else if (mimetype.equals(ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)) {
                         Uri person = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, (Long.valueOf(contactId)));
-                        Log.d("Proves", "Passem 2 !!!!!!!!!");
                         Uri photoUri = Uri.withAppendedPath(person, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
-                        Log.d("Proves", "Passem 3 !!!!!!!!!");
-                        contact.put("photos", photoUri.toString());
-                        Log.d("Proves", "Passem 4 !!!!!!!!!");*/
-                        contact.put("mauro", "entro if");
-                        
+                        contact.put("photo", photoUri.toString());                                           
                     }
 
                     // Set the old contact ID
