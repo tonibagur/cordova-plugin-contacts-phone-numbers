@@ -142,6 +142,8 @@ public class ContactsManager extends CordovaPlugin {
                         phones.put(getPhoneNumber(c));
                     } else if (mimetype.equals(ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)) {
                         contact.put("email", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)));
+                    } else if (mimetype.equals(ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)) {
+                        contact.put("photos", c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO)));
                     }
 
                     // Set the old contact ID
