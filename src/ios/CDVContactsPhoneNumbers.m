@@ -110,16 +110,34 @@
                         displayName = [displayName stringByAppendingString:lastName];
                     }
                     NSString *contactId = [NSString stringWithFormat:@"%d", ABRecordGetRecordID(ref)];
-
-                    //NSLog(@"Name %@ - %@", displayName, contactId);
-
+                    ABMutableMultiValueRef eMail  = ABRecordCopyValue(ref, kABPersonEmailProperty);
+                    
                     NSMutableDictionary* contactDictionary = [NSMutableDictionary dictionaryWithCapacity:1];
+                    
+                    
+                    if (ABPersonHasImageData(ref)) {
+                        NSData *imgData = (__bridge NSData*)ABPersonCopyImageDataWithFormat(ref, kABPersonImageFormatOriginalSize);
+                        NSError *err;
+                        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);//find the cache dir. You might want to consider using the doc dir instead
+                        NSString * path = [paths  objectAtIndex:0];
+                        path = [path stringByAppendingPathComponent:@"prova.jpg"];
+                        [imgData writeToFile:path options:NSDataWritingAtomic error:&err];
+                        NSString * path2 = [NSString stringWithFormat:@"%@%@", @"file://", path];
+                        if(!err) {
+                            [contactDictionary setObject: path2 forKey:@"photo"];
+                            [contactDictionary setObject: @"true" forKey:@"hasPhoto"];
+                        }                        
+                    }
+
                     [contactDictionary setObject: contactId forKey:@"id"];
                     [contactDictionary setObject: displayName forKey:@"displayName"];
                     [contactDictionary setObject: firstName forKey:@"firstName"];
                     [contactDictionary setObject: lastName forKey:@"lastName"];
                     [contactDictionary setObject: phoneNumbersArray forKey:@"phoneNumbers"];
-
+                    if(ABMultiValueGetCount(eMail) > 0) {
+                        [contactDictionary setObject: (__bridge NSString *)ABMultiValueCopyValueAtIndex(eMail, 0) forKey:@"email"];
+                    }
+                    
                     //add the contact to the list to return
                     [contactsWithPhoneNumbers addObject:contactDictionary];
                 }                
