@@ -120,7 +120,8 @@
                         NSError *err;
                         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);//find the cache dir. You might want to consider using the doc dir instead
                         NSString * path = [paths  objectAtIndex:0];
-                        path = [path stringByAppendingPathComponent:@"prova.jpg"];
+                        NSString *photoname = [contactId stringByAppendingString:@".jpg"];
+                        path = [path stringByAppendingPathComponent:photoname];
                         [imgData writeToFile:path options:NSDataWritingAtomic error:&err];
                         NSString * path2 = [NSString stringWithFormat:@"%@%@", @"file://", path];
                         if(!err) {
