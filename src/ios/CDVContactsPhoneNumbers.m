@@ -18,9 +18,9 @@
  */
 
 #import "CDVContactsPhoneNumbers.h"
-#import <UIKit/UIKit.h>
-#import <Cordova/NSArray+Comparisons.h>
-#import <Cordova/NSDictionary+Extensions.h>
+// #import <UIKit/UIKit.h>
+// #import <Cordova/NSArray+Comparisons.h>
+// #import <Cordova/NSDictionary+Extensions.h>
 
 @implementation CDVContactsPhoneNumbers
 
